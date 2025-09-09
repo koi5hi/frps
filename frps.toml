@@ -2,7 +2,7 @@
 bindAddr = "0.0.0.0"        # 服务端监听的 IP 地址，0.0.0.0 表示监听所有网卡
 bindPort = 47900             # FRP 客户端连接服务端的默认端口
 #kcpBindPort = 7000         # 注释掉了，如果启用 KCP 协议，可以单独指定端口
-quicBindPort = 47900        # QUIC 协议监听端口（高速 UDP 连接）
+quicBindPort = 7900        # QUIC 协议监听端口（高速 UDP 连接）
 
 # HTTP/HTTPS 虚拟主机端口
 #vhostHTTPPort = 80          # FRP 的 HTTP 反向代理端口
