@@ -1,35 +1,42 @@
-bindAddr = "0.0.0.0"
-bindPort = 7000
-#kcpBindPort = 7000
-quicBindPort = 7000
+# FRPS 绑定地址和端口
+bindAddr = "0.0.0.0"        # 服务端监听的 IP 地址，0.0.0.0 表示监听所有网卡
+bindPort = 47900             # FRP 客户端连接服务端的默认端口
+#kcpBindPort = 7000         # 注释掉了，如果启用 KCP 协议，可以单独指定端口
+quicBindPort = 47900        # QUIC 协议监听端口（高速 UDP 连接）
 
-vhostHTTPPort = 80
-vhostHTTPSPort = 443
+# HTTP/HTTPS 虚拟主机端口
+#vhostHTTPPort = 80          # FRP 的 HTTP 反向代理端口
+#vhostHTTPSPort = 443        # FRP 的 HTTPS 反向代理端口
 
-transport.maxPoolCount = 2000
-transport.tcpMux = true
-transport.tcpMuxKeepaliveInterval = 60
-transport.tcpKeepalive = 7200
-transport.tls.force = false
+# 传输层配置
+transport.maxPoolCount = 2000           # TCP 连接池最大数量，客户端复用 TCP 连接时使用
+transport.tcpMux = true                 # 是否开启 TCP 多路复用，提高并发性能
+transport.tcpMuxKeepaliveInterval = 60  # TCP 多路复用下的心跳间隔（秒）
+transport.tcpKeepalive = 7200           # TCP KeepAlive 间隔（秒），保持长连接活跃
+transport.tls.force = false             # 是否强制使用 TLS 加密，false 表示不加密
 
-webServer.addr = "0.0.0.0"
-webServer.port = 7500
-webServer.user = "admin"
-webServer.password = "admin"
-webServer.pprofEnable = false
+# Web 管理界面配置
+webServer.addr = "127.0.0.1"  # Web 界面绑定地址
+webServer.port = 7500        # Web 界面端口
+webServer.user = "admin"     # 登录 Web 界面用户名
+webServer.password = "xx"    # 登录 Web 界面密码
+webServer.pprofEnable = false # 是否启用 pprof 性能分析接口
 
-log.to = "./frps.log"
-log.level = "info"
-log.maxDays = 3
-log.disablePrintColor = false
+# 日志配置
+log.to = "./frps.log"        # 日志文件路径
+log.level = "info"           # 日志级别，可选 trace/debug/info/warn/error
+log.maxDays = 365              # 日志保留天数
+log.disablePrintColor = false # 是否禁用终端彩色输出
 
-auth.method = "token"
-auth.token = "12345678"
+# 客户端认证方式
+auth.method = "token"        # 客户端认证方法，这里使用 token
+auth.token = "xx"            # 客户端连接服务端的认证 token
 
+# 允许客户端映射的端口范围
 allowPorts = [
-  { start = 10001, end = 50000 }
+  { start = 10001, end = 50000 }  # 客户端可映射的端口段
 ]
 
-maxPortsPerClient = 8
-udpPacketSize = 1500
-natholeAnalysisDataReserveHours = 168
+maxPortsPerClient = 8         # 每个客户端最多可以映射的端口数
+udpPacketSize = 1500          # UDP 数据包最大尺寸（MTU）
+natholeAnalysisDataReserveHours = 168  # NAT 穿透分析数据保留时长，单位小时（168小时 = 7天）
